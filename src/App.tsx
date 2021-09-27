@@ -1,25 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useState } from "react";
+import useSWR from "swr";
+import { HexColorPicker } from "react-colorful";
+import { ColorData } from "./types";
+import { ColorsList, OnColorChange } from "./ColorsList";
+import * as api from "./api";
+
+const useUserColors = () => {
+  return useSWR<ColorData[]>("/colors", api.fetchColors);
+};
 
 function App() {
+  const { data } = useUserColors();
+  const [color, setColor] = useState("#aabbcc");
+
+  const handleUpdateColor = useCallback<OnColorChange>(
+    async (originalColor, updatedColor) => {
+      await api.patchColor(originalColor, updatedColor);
+    },
+    []
+  );
+
+  if (!data) {
+    return null;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <HexColorPicker color={color} onChange={setColor} />
+      <ColorsList colorsList={data} onColorChange={handleUpdateColor} />
+    </main>
   );
 }
 
