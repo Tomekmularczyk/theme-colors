@@ -17,18 +17,19 @@ function App() {
     "/colors",
     api.fetchColors
   );
-  const [color, setColor] = useState("#aabbcc");
+  const [color, setColor] = useState("#FFF");
 
   const handleUpdateColor = useCallback<OnColorChange>(
     async (originalColor, updatedColor) => {
       try {
         await api.updateColor(originalColor, updatedColor);
+        mutate();
         toast.success(`Color "${originalColor.title}" updated`);
       } catch (e) {
         toast.error(`We couldn't update the "${originalColor.title}" color`);
       }
     },
-    []
+    [mutate]
   );
 
   const handleAddColor = useCallback(async () => {

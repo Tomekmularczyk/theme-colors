@@ -14,14 +14,14 @@ export const fetchColors = async () => {
 
 export const updateColor = async (
   originalColor: ColorData,
-  updatedColor: string
+  updatedColor: Partial<Omit<ColorData, "id">>
 ) => {
   const data = await fetchFromApi(`/colors/${originalColor.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ hexCode: updatedColor }),
+    body: JSON.stringify(updatedColor),
   });
   return data.json();
 };

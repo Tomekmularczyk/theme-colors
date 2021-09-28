@@ -26,7 +26,10 @@ const Popover = styled.div`
   z-index: 100;
 `;
 
-export type OnColorChange = (original: ColorData, updatedColor: string) => void;
+export type OnColorChange = (
+  original: ColorData,
+  updatedColor: Partial<Omit<ColorData, "id">>
+) => void;
 
 interface Props {
   color: ColorData;
@@ -38,12 +41,10 @@ export const ColorPicker = ({ color, onChange }: Props) => {
   const [updatedColor, setUpdatedColor] = useState(color.hexCode);
   const [isOpen, toggle] = useState(false);
 
-  const close = () => {
+  useClickOutside(popover, () => {
     toggle(false);
-    onChange(color, updatedColor);
-  };
-
-  useClickOutside(popover, close);
+    onChange(color, { hexCode: updatedColor });
+  });
 
   return (
     <Container>

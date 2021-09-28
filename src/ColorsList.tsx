@@ -1,21 +1,57 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { ColorData } from "./types";
 import { ColorPicker, OnColorChange } from "./ColorPicker";
 import styled from "styled-components/macro";
+import useClickOutside from "./useClickOutside";
 
-const List = styled.ul`
+const Ul = styled.ul`
   list-style: none;
   padding: 0;
 `;
 
-const ListItem = styled.li`
+const Li = styled.li`
   display: flex;
   align-items: center;
 `;
 
 const Name = styled.p`
-  margin-left: 1rem;
+  margin: 1rem 0 1rem 1rem;
 `;
+
+const Input = styled.input`
+  margin: 1rem 0 1rem 1rem;
+`;
+
+interface ListItemProps {
+  color: ColorData;
+  onColorChange: OnColorChange;
+}
+
+const ListItem = ({ color, onColorChange }: ListItemProps) => {
+  const input = useRef<HTMLInputElement>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  useClickOutside(input, () => {
+    const inputValue = input.current?.value;
+    if (inputValue && inputValue !== color.title) {
+      onColorChange(color, { title: inputValue });
+    }
+    setIsEditMode(false);
+  });
+
+  return (
+    <Li key={color.id}>
+      <ColorPicker color={color} onChange={onColorChange} />
+      {isEditMode ? (
+        <Input ref={input} defaultValue={color.title} />
+      ) : (
+        <Name onClick={() => setIsEditMode(true)} tabIndex={1}>
+          {color.title}
+        </Name>
+      )}
+    </Li>
+  );
+};
 
 interface Props {
   colorsList: ColorData[];
@@ -24,14 +60,11 @@ interface Props {
 
 export const ColorsList = ({ colorsList, onColorChange }: Props) => {
   return (
-    <List>
+    <Ul>
       {colorsList.map((color) => (
-        <ListItem key={color.id}>
-          <ColorPicker color={color} onChange={onColorChange} />
-          <Name>{color.title}</Name>
-        </ListItem>
+        <ListItem color={color} onColorChange={onColorChange} key={color.id} />
       ))}
-    </List>
+    </Ul>
   );
 };
 
