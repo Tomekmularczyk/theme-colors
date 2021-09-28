@@ -26,14 +26,9 @@ const Popover = styled.div`
   z-index: 100;
 `;
 
-export type OnColorChange = (
-  original: ColorData,
-  updatedColor: Partial<Omit<ColorData, "id">>
-) => void;
-
 interface Props {
   color: ColorData;
-  onChange: OnColorChange;
+  onChange: (updatedColor: string) => void;
 }
 
 export const ColorPicker = ({ color, onChange }: Props) => {
@@ -43,7 +38,7 @@ export const ColorPicker = ({ color, onChange }: Props) => {
 
   useClickOutside(popover, () => {
     toggle(false);
-    onChange(color, { hexCode: updatedColor });
+    onChange(updatedColor);
   });
 
   return (

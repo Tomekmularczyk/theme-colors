@@ -36,3 +36,10 @@ export const createColor = async (title: string, hexCode: string) => {
   });
   return data.json();
 };
+
+export const deleteColor = async (color: ColorData) => {
+  const data = await fetchFromApi(`/colors/${color.id}`, {
+    method: "DELETE",
+  });
+  return data.json();
+};

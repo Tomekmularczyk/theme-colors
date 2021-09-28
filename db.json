@@ -8,22 +8,12 @@
     {
       "id": 2,
       "title": "Green",
-      "hexCode": "#3f7534"
-    },
-    {
-      "id": 3,
-      "title": "brazowy",
-      "hexCode": "#601c1c"
+      "hexCode": "#62bc50"
     },
     {
       "hexCode": "#1c4976",
       "title": "Color Graysfd",
       "id": 4
-    },
-    {
-      "hexCode": "#7b2272",
-      "title": "Color bordo",
-      "id": 5
     },
     {
       "hexCode": "#aabbcc",

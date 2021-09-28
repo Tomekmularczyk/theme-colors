@@ -2,11 +2,11 @@ import React, { useCallback, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styled from "styled-components/macro";
 import useSWR from "swr";
 import * as api from "./api";
 import { ColorsList, OnColorChange } from "./ColorsList";
 import { ColorData } from "./types";
-import styled from "styled-components/macro";
 
 const AddColorButton = styled.button`
   margin-top: 10px;
@@ -43,6 +43,19 @@ function App() {
     }
   }, [color, mutate]);
 
+  const handleDeleteColor = useCallback(
+    async (color: ColorData) => {
+      try {
+        await api.deleteColor(color);
+        mutate();
+        toast.success(`Color "${color.title}" deleted`);
+      } catch (e) {
+        toast.error(`We couldn't delete the color`);
+      }
+    },
+    [mutate]
+  );
+
   if (error) {
     return <p>Sorry, we couldn't fetch the colors</p>;
   }
@@ -55,7 +68,11 @@ function App() {
     <main>
       <HexColorPicker color={color} onChange={setColor} />
       <AddColorButton onClick={handleAddColor}>Add color</AddColorButton>
-      <ColorsList colorsList={data} onColorChange={handleUpdateColor} />
+      <ColorsList
+        colorsList={data}
+        onColorChange={handleUpdateColor}
+        onColorDelete={handleDeleteColor}
+      />
       <ToastContainer hideProgressBar autoClose={3000} />
     </main>
   );
