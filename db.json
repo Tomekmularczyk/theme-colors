@@ -1,11 +1,6 @@
 {
   "colors": [
     {
-      "hexCode": "#0e275f",
-      "title": "Red",
-      "id": 1
-    },
-    {
       "id": 2,
       "title": "Green",
       "hexCode": "#62bc50"
@@ -16,9 +11,14 @@
       "id": 4
     },
     {
-      "hexCode": "#aabbcc",
-      "title": "Color 1632855724429",
-      "id": 6
+      "hexCode": "#FFF",
+      "title": "Color 1632859408689",
+      "id": 7
+    },
+    {
+      "hexCode": "#9b3f3f",
+      "title": "Color Red",
+      "id": 8
     }
   ]
 }

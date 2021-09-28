@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { AnimatedList } from "react-animated-list";
 import styled from "styled-components/macro";
 import { ColorPicker } from "./ColorPicker";
 import { ColorData } from "./types";
@@ -82,14 +83,16 @@ export const ColorsList = ({
 }: Props) => {
   return (
     <Ul>
-      {colorsList.map((color) => (
-        <ListItem
-          color={color}
-          onColorChange={onColorChange}
-          onColorDelete={onColorDelete}
-          key={color.id}
-        />
-      ))}
+      <AnimatedList>
+        {colorsList.map((color) => (
+          <ListItem
+            color={color}
+            onColorChange={onColorChange}
+            onColorDelete={onColorDelete}
+            key={color.id}
+          />
+        ))}
+      </AnimatedList>
     </Ul>
   );
 };

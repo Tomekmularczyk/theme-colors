@@ -67,7 +67,7 @@ function App() {
   return (
     <main>
       <HexColorPicker color={color} onChange={setColor} />
-      <AddColorButton onClick={handleAddColor}>Add color</AddColorButton>
+      <AddColorButton onClick={handleAddColor}>ADD COLOR</AddColorButton>
       <ColorsList
         colorsList={data}
         onColorChange={handleUpdateColor}
