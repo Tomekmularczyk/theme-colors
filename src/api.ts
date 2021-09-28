@@ -12,17 +12,27 @@ export const fetchColors = async () => {
   return data.json();
 };
 
-export const patchColor = async (
+export const updateColor = async (
   originalColor: ColorData,
   updatedColor: string
 ) => {
-  const res = await fetchFromApi(`/colors/${originalColor.id}`, {
+  const data = await fetchFromApi(`/colors/${originalColor.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ hexCode: updatedColor }),
   });
+  return data.json();
+};
 
-  return res.json();
+export const createColor = async (title: string, hexCode: string) => {
+  const data = await fetchFromApi("/colors", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ hexCode, title }),
+  });
+  return data.json();
 };

@@ -1,19 +1,34 @@
 {
   "colors": [
     {
-      "hexCode": "#1a3166",
+      "hexCode": "#0e275f",
       "title": "Red",
       "id": 1
     },
     {
       "id": 2,
       "title": "Green",
-      "hexCode": "#fff"
+      "hexCode": "#3f7534"
     },
     {
       "id": 3,
       "title": "Blue",
-      "hexCode": "#fff"
+      "hexCode": "#601c1c"
+    },
+    {
+      "hexCode": "#aabbcc",
+      "title": "Color 1632855535336",
+      "id": 4
+    },
+    {
+      "hexCode": "#aabbcc",
+      "title": "Color 1632855703218",
+      "id": 5
+    },
+    {
+      "hexCode": "#aabbcc",
+      "title": "Color 1632855724429",
+      "id": 6
     }
   ]
 }

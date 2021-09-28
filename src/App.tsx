@@ -1,24 +1,50 @@
 import React, { useCallback, useState } from "react";
-import useSWR from "swr";
 import { HexColorPicker } from "react-colorful";
-import { ColorData } from "./types";
-import { ColorsList, OnColorChange } from "./ColorsList";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useSWR from "swr";
 import * as api from "./api";
+import { ColorsList, OnColorChange } from "./ColorsList";
+import { ColorData } from "./types";
+import styled from "styled-components/macro";
 
-const useUserColors = () => {
-  return useSWR<ColorData[]>("/colors", api.fetchColors);
-};
+const AddColorButton = styled.button`
+  margin-top: 10px;
+`;
 
 function App() {
-  const { data } = useUserColors();
+  const { data, error, mutate } = useSWR<ColorData[]>(
+    "/colors",
+    api.fetchColors
+  );
   const [color, setColor] = useState("#aabbcc");
 
   const handleUpdateColor = useCallback<OnColorChange>(
     async (originalColor, updatedColor) => {
-      await api.patchColor(originalColor, updatedColor);
+      try {
+        await api.updateColor(originalColor, updatedColor);
+        toast.success(`Color "${originalColor.title}" updated`);
+      } catch (e) {
+        toast.error(`We couldn't update the "${originalColor.title}" color`);
+      }
     },
     []
   );
+
+  const handleAddColor = useCallback(async () => {
+    try {
+      const title = `Color ${Date.now()}`;
+      await api.createColor(title, color);
+      mutate();
+      toast.success(`New color created`);
+    } catch (e) {
+      toast.error(`We couldn't create the color`);
+    }
+  }, [color, mutate]);
+
+  if (error) {
+    return <p>Sorry, we couldn't fetch the colors</p>;
+  }
 
   if (!data) {
     return null;
@@ -27,7 +53,9 @@ function App() {
   return (
     <main>
       <HexColorPicker color={color} onChange={setColor} />
+      <AddColorButton onClick={handleAddColor}>Add color</AddColorButton>
       <ColorsList colorsList={data} onColorChange={handleUpdateColor} />
+      <ToastContainer hideProgressBar autoClose={3000} />
     </main>
   );
 }
